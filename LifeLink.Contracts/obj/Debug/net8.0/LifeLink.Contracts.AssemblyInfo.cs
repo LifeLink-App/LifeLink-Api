@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LifeLink.Contracts")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d8efcc35d3940c523fbcfbd928e75ba4b6813f88")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+01970cbeb457cc8daf065301cd7ae56aa9ccf088")]
 [assembly: System.Reflection.AssemblyProductAttribute("LifeLink.Contracts")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LifeLink.Contracts")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

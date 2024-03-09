@@ -1,0 +1,12 @@
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\bin\Debug\net8.0\LifeLink.Contracts.deps.json
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\bin\Debug\net8.0\LifeLink.Contracts.dll
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\bin\Debug\net8.0\LifeLink.Contracts.pdb
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\LifeLink.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\LifeLink.Contracts.AssemblyInfoInputs.cache
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\LifeLink.Contracts.AssemblyInfo.cs
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\LifeLink.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\LifeLink.Contracts.sourcelink.json
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\LifeLink.Contracts.dll
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\refint\LifeLink.Contracts.dll
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\LifeLink.Contracts.pdb
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink.Contracts\obj\Debug\net8.0\ref\LifeLink.Contracts.dll

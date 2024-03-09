@@ -107,6 +107,16 @@
         "frameworkReferences": [
           "Microsoft.AspNetCore.App"
         ]
+      },
+      "LifeLink.Contracts/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/LifeLink.Contracts.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LifeLink.Contracts.dll": {}
+        }
       }
     }
   },
@@ -451,10 +461,16 @@
         "swashbuckle.aspnetcore.swaggerui.6.4.0.nupkg.sha512",
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
+    },
+    "LifeLink.Contracts/1.0.0": {
+      "type": "project",
+      "path": "../LifeLink.Contracts/LifeLink.Contracts.csproj",
+      "msbuildProject": "../LifeLink.Contracts/LifeLink.Contracts.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "LifeLink.Contracts >= 1.0.0",
       "Microsoft.AspNetCore.OpenApi >= 8.0.2",
       "Swashbuckle.AspNetCore >= 6.4.0"
     ]
@@ -483,7 +499,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\mertg\\Desktop\\My Work\\LifeLink-Api\\LifeLink.Contracts\\LifeLink.Contracts.csproj": {
+              "projectPath": "C:\\Users\\mertg\\Desktop\\My Work\\LifeLink-Api\\LifeLink.Contracts\\LifeLink.Contracts.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
