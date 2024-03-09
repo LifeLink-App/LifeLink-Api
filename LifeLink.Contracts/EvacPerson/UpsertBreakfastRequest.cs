@@ -1,6 +1,6 @@
 namespace LifeLink.Contracts.EvacPerson;
 
-public record CreateEvacPersonRequest (
+public record UpsertEvacPersonRequest (
     string Name,
     string Surname,
     DateTime BirthDay,
