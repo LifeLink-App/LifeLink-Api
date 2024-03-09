@@ -1,4 +1,5 @@
 namespace LifeLink.Contracts.EvacPerson;
+
 public record EvacPersonResponse (
     Guid Id,
     Guid CreatorId,
