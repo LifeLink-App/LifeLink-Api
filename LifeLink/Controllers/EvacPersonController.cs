@@ -4,27 +4,27 @@ using Microsoft.AspNetCore.Mvc;
 namespace LifeLink.Controllers;
 
 [ApiController]
-public class EvacPersonsController : ControllerBase 
+public class EvacPersonController : ControllerBase 
 {
-    [HttpPost("/evacPersons")]
+    [HttpPost("/evacPerson")]
     public IActionResult CreateEvacPerson(CreateEvacPersonRequest request) 
     {
         return Ok(request);
     }
 
-    [HttpGet("/evacPersons/{id:guid}")]
+    [HttpGet("/evacPerson/{id:guid}")]
     public IActionResult GetEvacPerson(Guid id) 
     {
         return Ok(id);
     }
 
-    [HttpPut("/evacPersons/{id:guid}")]
+    [HttpPut("/evacPerson/{id:guid}")]
     public IActionResult UpsertEvacPerson(Guid id, UpsertEvacPersonRequest request) 
     {
         return Ok(request);
     }
 
-    [HttpDelete("/evacPersons/{id:guid}")]
+    [HttpDelete("/evacPerson/{id:guid}")]
     public IActionResult DeleteEvacPerson(Guid id) 
     {
         return Ok(id);

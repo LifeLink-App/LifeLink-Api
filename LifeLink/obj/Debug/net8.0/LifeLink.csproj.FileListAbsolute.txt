@@ -5,7 +5,6 @@ C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\LifeLink.d
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\LifeLink.runtimeconfig.json
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\LifeLink.dll
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\LifeLink.pdb
-C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\Microsoft.OpenApi.dll
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -34,3 +33,4 @@ C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\obj\Debug\net8.0\refint\Lif
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\obj\Debug\net8.0\LifeLink.pdb
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\obj\Debug\net8.0\LifeLink.genruntimeconfig.cache
 C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\obj\Debug\net8.0\ref\LifeLink.dll
+C:\Users\mertg\Desktop\My Work\LifeLink-Api\LifeLink\bin\Debug\net8.0\Microsoft.AspNetCore.OpenApi.dll
