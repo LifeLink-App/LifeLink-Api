@@ -7,7 +7,6 @@ public record EvacPersonResponse (
     Guid ModifierId, 
     DateTime ModifyTime,
     string Name,
-    string Surname,
     DateTime BirthDate,
     string Description
 );
