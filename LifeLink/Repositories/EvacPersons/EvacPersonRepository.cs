@@ -42,7 +42,7 @@ public class EvacPersonRepository(LifeLinkDbContext dbContext) : IEvacPersonRepo
 
     public ErrorOr<UpsertedEvacPerson> Upsert(EvacPerson evacPerson)
     {
-        var isNewlyCreated = _dbContext.EvacPersons.Find(evacPerson.Id) is null;
+        var isNewlyCreated = !_dbContext.EvacPersons.Any(e => e.Id == evacPerson.Id);
 
         if(isNewlyCreated)
         {
