@@ -8,15 +8,18 @@ public class EvacPerson
 {
     public const int MinNameLength = 3;
     public const int MaxNameLength = 50;
+    public const int MinDescriptionLength = 3;
+    public const int MaxDescriptionLength = 200;
 
-    public Guid Id { get; }
-    public Guid CreatorId { get; }
-    public DateTime CreateTime { get; }
-    public Guid ModifierId { get; }
-    public DateTime ModifyTime { get; }
-    public string Name { get; }
-    public DateTime BirthDate { get; }
-    public string Description { get; }
+    public Guid Id { get; set; }
+    public Guid CreatorId { get; set; }
+    public DateTime CreateTime { get; set; }
+    public Guid ModifierId { get; set; }
+    public DateTime ModifyTime { get; set; }
+    public string Name { get; set; }
+    public DateTime BirthDate { get; set; }
+    public string Description { get; set; }
+    public List<Guid> Medications { get; set; }
 
     private EvacPerson(
         Guid id,
@@ -26,7 +29,8 @@ public class EvacPerson
         DateTime modifyTime,
         string name,
         DateTime birthDate,
-        string description)
+        string description,
+        List<Guid> medications)
     {
         Id = id;
         CreatorId = creatorId;
@@ -36,12 +40,14 @@ public class EvacPerson
         Name = name;
         BirthDate = birthDate;
         Description = description;
+        Medications = medications;
     }
 
     public static ErrorOr<EvacPerson> Create(        
         string name,
         DateTime birthDate,
         string description,
+        List<Guid> medications,
         Guid? id = null)
     {
         List<Error> errors = [];
@@ -50,6 +56,10 @@ public class EvacPerson
             errors.Add(Errors.EvacPerson.InvalidName);
         }        
 
+        if(description.Length < MinDescriptionLength || description.Length > MaxDescriptionLength){
+            errors.Add(Errors.EvacPerson.InvalidDescription);
+        }  
+
         if(errors.Count > 0){
             return errors;
         }
@@ -57,12 +67,13 @@ public class EvacPerson
         return new EvacPerson (
             id ?? Guid.NewGuid(),
             Guid.Empty,
-            DateTime.Now,
+            DateTime.UtcNow,
             Guid.Empty,
-            DateTime.Now,
+            DateTime.UtcNow,
             name,
             birthDate,
-            description
+            description,
+            medications
         );
 
     }
@@ -72,7 +83,8 @@ public class EvacPerson
         return Create(
             request.Name,
             request.BirthDay,
-            request.Description
+            request.Description,
+            request.Medications
         );
     }
     
@@ -82,6 +94,7 @@ public class EvacPerson
             request.Name,
             request.BirthDay,
             request.Description,
+            request.Medications,
             id
         );
     }

@@ -13,7 +13,11 @@ public static class Errors
 
         public static Error InvalidName => Error.Validation(
             code: "EvacPerson.InvalidName",
-            description: $"Evac Person name must be at least {Models.EvacPerson.MinNameLength} characters ling and at most {Models.EvacPerson.MaxNameLength} characters long"
+            description: $"Evac Person name must be at least {Models.EvacPerson.MinNameLength} characters long and at most {Models.EvacPerson.MaxNameLength} characters long"
+        );
+        public static Error InvalidDescription => Error.Validation(
+            code: "EvacPerson.InvalidDescription",
+            description: $"Evac Person description must be at least {Models.EvacPerson.MinDescriptionLength} characters long and at most {Models.EvacPerson.MaxDescriptionLength} characters long"
         );
     }
 }

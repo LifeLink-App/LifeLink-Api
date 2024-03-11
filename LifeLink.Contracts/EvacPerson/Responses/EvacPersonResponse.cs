@@ -8,5 +8,6 @@ public record EvacPersonResponse (
     DateTime ModifyTime,
     string Name,
     DateTime BirthDate,
-    string Description
+    string Description,
+    List<Guid> Medications
 );

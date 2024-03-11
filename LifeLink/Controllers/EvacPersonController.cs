@@ -81,7 +81,8 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
             evacPerson.ModifyTime,
             evacPerson.Name,
             evacPerson.BirthDate,
-            evacPerson.Description
+            evacPerson.Description,
+            evacPerson.Medications
         );
 
         return response;
