@@ -1,4 +1,4 @@
-namespace LifeLink.Models;
+namespace LifeLink.Models.BaseModels;
 public interface IBaseModel
 {
     public Guid Id { get; set; }

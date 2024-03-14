@@ -2,8 +2,6 @@ using ErrorOr;
 using LifeLink.Contracts.EvacPerson;
 using LifeLink.Models;
 using LifeLink.Repositories.BaseRepository;
-using LifeLink.Repositories.EvacPersons;
-using LifeLink.ServiceErrors;
 using LifeLink.Services.EvacPersons;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +23,7 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
         }
 
         var evacPerson = requestToEvacPersonResult.Value;
-        ErrorOr<Created> createEvacPersonResult = _evacPersonService.CreateEvacPerson(evacPerson);
+        ErrorOr<Created> createEvacPersonResult = _evacPersonService.Create(evacPerson);
 
         return createEvacPersonResult.Match(
             created => CreatedAtGetEvacPerson(evacPerson),
@@ -36,7 +34,7 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
     [HttpGet("{id:guid}")]
     public IActionResult GetEvacPerson(Guid id) 
     {
-        ErrorOr<EvacPerson> getEvacPersonResult = _evacPersonService.GetEvacPerson(id);
+        ErrorOr<EvacPerson> getEvacPersonResult = _evacPersonService.Get(id);
 
         return getEvacPersonResult.Match(
             evacPerson => Ok(MapEvacPersonToResponse(evacPerson)),
@@ -46,7 +44,7 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
     [HttpGet()]
     public IActionResult GetAllEvacPersons() 
     {
-        ErrorOr<List<EvacPerson>> getAllEvacPersonsResult = _evacPersonService.GetAllEvacPersons();
+        ErrorOr<List<EvacPerson>> getAllEvacPersonsResult = _evacPersonService.GetAll();
 
         return getAllEvacPersonsResult.Match(
             evacPersons => {
@@ -66,7 +64,7 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
         }
 
         var evacPerson = requestToEvacPersonResult.Value;
-        ErrorOr<UpsertedObject> upsertEvacPersonResult = _evacPersonService.UpsertEvacPerson(evacPerson);
+        ErrorOr<UpsertedObject> upsertEvacPersonResult = _evacPersonService.Upsert(evacPerson);
 
         return upsertEvacPersonResult.Match(
             upserted => upserted.IsNewlyCreated ? CreatedAtGetEvacPerson(evacPerson) : NoContent(),
@@ -77,7 +75,7 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
     [HttpDelete("{id:guid}")]
     public IActionResult DeleteEvacPerson(Guid id) 
     {
-         ErrorOr<Deleted> deleteEvacPersonResult =  _evacPersonService.DeleteEvacPerson(id);
+         ErrorOr<Deleted> deleteEvacPersonResult =  _evacPersonService.Delete(id);
 
          return deleteEvacPersonResult.Match(
             deleted => NoContent(),

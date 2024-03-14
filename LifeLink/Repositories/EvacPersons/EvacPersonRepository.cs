@@ -29,4 +29,15 @@ public class EvacPersonRepository(LifeLinkDbContext dbContext) : BaseRepository<
 
         return result;
     }
+
+    public new ErrorOr<List<EvacPerson>> GetAll() 
+    {
+        ErrorOr<List<EvacPerson>> result = base.GetAll();
+
+        if(result.Errors[0].Type == ErrorType.NotFound){
+            return Errors.EvacPerson.NotFound;
+        }
+
+        return result;
+    }
 }

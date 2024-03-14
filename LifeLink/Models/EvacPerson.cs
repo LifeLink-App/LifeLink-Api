@@ -1,44 +1,28 @@
 using ErrorOr;
 using LifeLink.Contracts.EvacPerson;
+using LifeLink.Models.BaseModels;
 using LifeLink.ServiceErrors;
 
 namespace LifeLink.Models;
 
-public class EvacPerson : BaseModel
+public class EvacPerson (
+        Guid id,
+        string name,
+        DateTime birthDate,
+        string description,
+        List<Guid> medications) : BaseModel (id)
 {
     public const int MinNameLength = 3;
     public const int MaxNameLength = 50;
     public const int MinDescriptionLength = 3;
     public const int MaxDescriptionLength = 200;
 
-    public string Name { get; set; }
-    public DateTime BirthDate { get; set; }
-    public string Description { get; set; }
-    public List<Guid> Medications { get; set; }
+    public string Name { get; set; } = name;
+    public DateTime BirthDate { get; set; } = birthDate;
+    public string Description { get; set; } = description;
+    public List<Guid> Medications { get; set; } = medications;
 
-    private EvacPerson(
-        Guid id,
-        Guid creatorId,
-        DateTime createTime,
-        Guid modifierId,
-        DateTime modifyTime,
-        string name,
-        DateTime birthDate,
-        string description,
-        List<Guid> medications) :  base(
-            id, 
-            creatorId, 
-            createTime,
-            modifierId, 
-            modifyTime)
-    {
-        Name = name;
-        BirthDate = birthDate;
-        Description = description;
-        Medications = medications;
-    }
-
-    public static ErrorOr<EvacPerson> Create(        
+    private static ErrorOr<EvacPerson> Create(        
         string name,
         DateTime birthDate,
         string description,
@@ -61,10 +45,6 @@ public class EvacPerson : BaseModel
 
         return new EvacPerson (
             id ?? Guid.NewGuid(),
-            Guid.Empty,
-            DateTime.UtcNow,
-            Guid.Empty,
-            DateTime.UtcNow,
             name,
             birthDate,
             description,

@@ -1,8 +1,6 @@
-using System;
 using ErrorOr;
-using LifeLink.Models;
+using LifeLink.Models.BaseModels;
 using LifeLink.Persistence;
-using LifeLink.ServiceErrors;
 
 namespace LifeLink.Repositories.BaseRepository;
 
@@ -64,6 +62,10 @@ public abstract class BaseRepository<TEntity>(LifeLinkDbContext dbContext) : IBa
         }
         else
         {
+            _dbContext.Entry(entity).Property("CreatorId").IsModified = false;
+            _dbContext.Entry(entity).Property("CreateTime").IsModified = false;
+
+
             _dbContext.Set<TEntity>().Update(entity);
         }
 
