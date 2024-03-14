@@ -49,7 +49,7 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
         return getAllEvacPersonsResult.Match(
             evacPersons => {
                     var list = evacPersons.Select(MapEvacPersonToResponse).ToList();
-                    return Ok(new EvacPersonListResponse(Count: list.Count(), List: list));
+                    return Ok(new EvacPersonListResponse(Count: list.Count, Items: list));
                 },
             errors => Problem(errors));      
     }

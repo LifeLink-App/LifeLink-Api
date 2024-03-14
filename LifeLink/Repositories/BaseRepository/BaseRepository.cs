@@ -1,6 +1,7 @@
 using ErrorOr;
 using LifeLink.Models.BaseModels;
 using LifeLink.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace LifeLink.Repositories.BaseRepository;
 
@@ -60,15 +61,14 @@ public abstract class BaseRepository<TEntity>(LifeLinkDbContext dbContext) : IBa
         {
             _dbContext.Set<TEntity>().Add(entity);
         }
-        else
-        {
-            _dbContext.Entry(entity).Property("CreatorId").IsModified = false;
-            _dbContext.Entry(entity).Property("CreateTime").IsModified = false;
-
-
-            _dbContext.Set<TEntity>().Update(entity);
+        else{
+            var existingEntity = _dbContext.Set<TEntity>().AsNoTracking().Single(e => e.Id == entity.Id);
+            
+            _dbContext.Attach(entity).State = EntityState.Modified;
+            
+            _dbContext.Entry(entity).Property("CreatorId").CurrentValue = existingEntity.CreatorId;
+            _dbContext.Entry(entity).Property("CreateTime").CurrentValue = existingEntity.CreateTime;
         }
-
         _dbContext.SaveChanges();
 
         return new UpsertedObject(isNewlyCreated);
