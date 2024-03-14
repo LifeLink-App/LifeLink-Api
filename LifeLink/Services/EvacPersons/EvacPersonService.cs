@@ -1,5 +1,6 @@
 using ErrorOr;
 using LifeLink.Models;
+using LifeLink.Repositories.BaseRepository;
 using LifeLink.Repositories.EvacPersons;
 
 namespace LifeLink.Services.EvacPersons;
@@ -23,7 +24,12 @@ public class EvacPersonService(IEvacPersonRepository evacPersonRepository) : IEv
         return  _evacPersonRepository.Get(id);
     }
 
-    public ErrorOr<UpsertedEvacPerson> UpsertEvacPerson(EvacPerson evacPerson)
+    public ErrorOr<List<EvacPerson>> GetAllEvacPersons() 
+    {
+        return _evacPersonRepository.GetAll();
+    }
+
+    public ErrorOr<UpsertedObject> UpsertEvacPerson(EvacPerson evacPerson)
     {
         return _evacPersonRepository.Upsert(evacPerson);
     }

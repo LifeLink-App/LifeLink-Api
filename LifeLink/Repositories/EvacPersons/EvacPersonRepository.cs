@@ -1,60 +1,32 @@
 using ErrorOr;
 using LifeLink.Models;
 using LifeLink.Persistence;
+using LifeLink.Repositories.BaseRepository;
 using LifeLink.ServiceErrors;
 
 namespace LifeLink.Repositories.EvacPersons;
 
-public class EvacPersonRepository(LifeLinkDbContext dbContext) : IEvacPersonRepository
+public class EvacPersonRepository(LifeLinkDbContext dbContext) : BaseRepository<EvacPerson>(dbContext), IEvacPersonRepository
 {
-    private readonly LifeLinkDbContext _dbContext = dbContext;
-
-    public ErrorOr<Created> Create(EvacPerson evacPerson)
+    public new ErrorOr<Deleted> Delete(Guid id)
     {
-        _dbContext.Add(evacPerson);
-        _dbContext.SaveChanges();
+        ErrorOr<Deleted> result = base.Delete(id);
 
-        return Result.Created;
-    }
-
-    public ErrorOr<Deleted> Delete(Guid id)
-    {
-        var evacPerson = _dbContext.EvacPersons.Find(id);
-        if(evacPerson == null){
+        if(result.Errors[0].Type == ErrorType.NotFound){
             return Errors.EvacPerson.NotFound;
         }
 
-        _dbContext.Remove(evacPerson);
-        _dbContext.SaveChanges();
-
-        return Result.Deleted;
+        return result;
     }
 
-    public ErrorOr<EvacPerson> Get(Guid id)
+    public new ErrorOr<EvacPerson> Get(Guid id) 
     {
-        if(_dbContext.EvacPersons.Find(id) is EvacPerson evacPerson){
-            return evacPerson;
-        }
-        
-        return Errors.EvacPerson.NotFound;
-            
-    }
+        ErrorOr<EvacPerson> result = base.Get(id);
 
-    public ErrorOr<UpsertedEvacPerson> Upsert(EvacPerson evacPerson)
-    {
-        var isNewlyCreated = !_dbContext.EvacPersons.Any(e => e.Id == evacPerson.Id);
-
-        if(isNewlyCreated)
-        {
-            _dbContext.EvacPersons.Add(evacPerson);
-        }
-        else 
-        {
-            _dbContext.EvacPersons.Update(evacPerson);
+        if(result.Errors[0].Type == ErrorType.NotFound){
+            return Errors.EvacPerson.NotFound;
         }
 
-        _dbContext.SaveChanges();
-
-        return new UpsertedEvacPerson(isNewlyCreated);
+        return result;
     }
 }

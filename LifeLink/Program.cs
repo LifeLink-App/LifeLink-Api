@@ -1,3 +1,4 @@
+using LifeLink;
 using LifeLink.Persistence;
 using LifeLink.Repositories.EvacPersons;
 using LifeLink.Services.EvacPersons;
@@ -16,7 +17,7 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.Services.AddDbContext<LifeLinkDbContext>(options => 
     {
-        options.UseNpgsql("Host=192.168.1.20;Database=LifeLink.db;Username=LifeLink_TestUser;Password=ghu-wvq6xcm3KCX-ued");
+        options.UseNpgsql(Connection.ConnectionString());
     });
 }
 

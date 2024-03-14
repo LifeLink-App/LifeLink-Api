@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace LifeLink.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitalCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "EvacPersons",
+                name: "EvacPerson",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -27,7 +27,7 @@ namespace LifeLink.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EvacPersons", x => x.Id);
+                    table.PrimaryKey("PK_EvacPerson", x => x.Id);
                 });
         }
 
@@ -35,7 +35,7 @@ namespace LifeLink.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EvacPersons");
+                name: "EvacPerson");
         }
     }
 }

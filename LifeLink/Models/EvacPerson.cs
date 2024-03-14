@@ -4,18 +4,13 @@ using LifeLink.ServiceErrors;
 
 namespace LifeLink.Models;
 
-public class EvacPerson 
+public class EvacPerson : BaseModel
 {
     public const int MinNameLength = 3;
     public const int MaxNameLength = 50;
     public const int MinDescriptionLength = 3;
     public const int MaxDescriptionLength = 200;
 
-    public Guid Id { get; set; }
-    public Guid CreatorId { get; set; }
-    public DateTime CreateTime { get; set; }
-    public Guid ModifierId { get; set; }
-    public DateTime ModifyTime { get; set; }
     public string Name { get; set; }
     public DateTime BirthDate { get; set; }
     public string Description { get; set; }
@@ -30,13 +25,13 @@ public class EvacPerson
         string name,
         DateTime birthDate,
         string description,
-        List<Guid> medications)
+        List<Guid> medications) :  base(
+            id, 
+            creatorId, 
+            createTime,
+            modifierId, 
+            modifyTime)
     {
-        Id = id;
-        CreatorId = creatorId;
-        CreateTime = createTime;
-        ModifierId = modifierId;
-        ModifyTime = modifyTime;
         Name = name;
         BirthDate = birthDate;
         Description = description;
@@ -75,7 +70,6 @@ public class EvacPerson
             description,
             medications
         );
-
     }
 
     public static ErrorOr<EvacPerson> From(CreateEvacPersonRequest request)

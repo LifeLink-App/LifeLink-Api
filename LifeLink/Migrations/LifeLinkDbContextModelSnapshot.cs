@@ -58,7 +58,7 @@ namespace LifeLink.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EvacPersons");
+                    b.ToTable("EvacPerson");
                 });
 #pragma warning restore 612, 618
         }

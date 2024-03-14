@@ -1,6 +1,7 @@
 using ErrorOr;
 using LifeLink.Contracts.EvacPerson;
 using LifeLink.Models;
+using LifeLink.Repositories.BaseRepository;
 using LifeLink.Repositories.EvacPersons;
 using LifeLink.ServiceErrors;
 using LifeLink.Services.EvacPersons;
@@ -42,6 +43,19 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
             errors => Problem(errors));      
     }
 
+    [HttpGet()]
+    public IActionResult GetAllEvacPersons() 
+    {
+        ErrorOr<List<EvacPerson>> getAllEvacPersonsResult = _evacPersonService.GetAllEvacPersons();
+
+        return getAllEvacPersonsResult.Match(
+            evacPersons => {
+                    var list = evacPersons.Select(MapEvacPersonToResponse).ToList();
+                    return Ok(new EvacPersonListResponse(Count: list.Count(), List: list));
+                },
+            errors => Problem(errors));      
+    }
+
     [HttpPut("{id:guid}")]
     public IActionResult UpsertEvacPerson(Guid id, UpsertEvacPersonRequest request) 
     {
@@ -52,7 +66,7 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
         }
 
         var evacPerson = requestToEvacPersonResult.Value;
-        ErrorOr<UpsertedEvacPerson> upsertEvacPersonResult = _evacPersonService.UpsertEvacPerson(evacPerson);
+        ErrorOr<UpsertedObject> upsertEvacPersonResult = _evacPersonService.UpsertEvacPerson(evacPerson);
 
         return upsertEvacPersonResult.Match(
             upserted => upserted.IsNewlyCreated ? CreatedAtGetEvacPerson(evacPerson) : NoContent(),

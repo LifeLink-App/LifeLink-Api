@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LifeLink.Migrations
 {
     [DbContext(typeof(LifeLinkDbContext))]
-    [Migration("20240311204558_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240313182454_InitalCreate")]
+    partial class InitalCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,7 +61,7 @@ namespace LifeLink.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EvacPersons");
+                    b.ToTable("EvacPerson");
                 });
 #pragma warning restore 612, 618
         }
