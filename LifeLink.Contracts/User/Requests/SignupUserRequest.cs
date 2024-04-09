@@ -1,6 +1,6 @@
 namespace LifeLink.Contracts.User.Requests;
 
-public record CreateUserRequest (
+public record SignupUserRequest (
     string Username,
     string Email,
     string? Phone,

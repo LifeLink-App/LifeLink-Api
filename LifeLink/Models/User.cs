@@ -9,7 +9,9 @@ public class User (
         Guid id,
         string username,
         string email,
+        bool isEmailVerified,
         string? phone,
+        bool isPhoneVerified,
         string name,
         DateTime? birthDate,
         List<Guid> roles,
@@ -17,8 +19,10 @@ public class User (
 {
     public string Username { get; set; } = username;
     public string Email { get; set; } = email; 
-    public string Name { get; set; } = name;
+    public bool IsEmailVerified { get; set; } = isEmailVerified;
     public string? Phone { get; set; } = phone;
+    public bool IsPhoneVerified { get; set; } = isPhoneVerified;
+    public string Name { get; set; } = name;
     public DateTime? BirthDate { get; set; } = birthDate;
     public List<Guid> Roles { get; set; } = roles;
     public string Password { get; set; } = password;
@@ -26,7 +30,9 @@ public class User (
     private static ErrorOr<User> Create(        
         string username,
         string email,
+        bool isEmailVerified,
         string? phone,
+        bool isPhoneVerified,
         string name,
         DateTime? birthDate,
         List<Guid> roles,
@@ -63,7 +69,9 @@ public class User (
             id ?? Guid.NewGuid(),
             username,
             email,
+            isEmailVerified,
             phone,
+            isPhoneVerified,
             name,
             birthDate,
             roles,
@@ -71,12 +79,14 @@ public class User (
         );
     }
 
-    public static ErrorOr<User> From(CreateUserRequest request)
+    public static ErrorOr<User> From(SignupUserRequest request)
     {
         return Create(
             request.Username,
             request.Email,
+            false,
             request.Phone,
+            false,
             request.Name,
             request.BirthDate,
             request.Roles,

@@ -81,6 +81,12 @@ namespace LifeLink.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsEmailVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPhoneVerified")
+                        .HasColumnType("boolean");
+
                     b.Property<Guid>("ModifierId")
                         .HasColumnType("uuid");
 

@@ -1,6 +1,6 @@
 namespace LifeLink.Contracts.User.Responses;
 
-public record UserResponse (
+public record LoginUserResponse (
     Guid Id,
     Guid CreatorId,
     DateTime CreateTime,
@@ -13,5 +13,6 @@ public record UserResponse (
     bool IsPhoneVerified,
     string Name,
     DateTime? BirthDate,
-    List<Guid> Roles
+    List<Guid> Roles,
+    string Token
 );

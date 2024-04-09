@@ -54,5 +54,13 @@ public static class Errors
             code: "User.Conflict.ExistingUsername",
             description: "User with this Username already exists"
         );
+        public static Error LoginErrorNotFound => Error.NotFound(
+            code: "User.NotFound.LoginErrorNotFound",
+            description: "User with this credentials not found"
+        );
+        public static Error LoginError => Error.Conflict(
+            code: "User.Conflict.LoginError",
+            description: "User credentials are wrong"
+        );
     }
 }

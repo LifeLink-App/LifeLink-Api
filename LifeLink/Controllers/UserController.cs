@@ -2,18 +2,21 @@ using ErrorOr;
 using LifeLink.Contracts.User.Requests;
 using LifeLink.Contracts.User.Responses;
 using LifeLink.Models;
+using LifeLink.Services.BaseService;
 using LifeLink.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LifeLink.Controllers;
 
+[Authorize]
 [Route("user")]
 public class UserController(IUserService userService) : ApiController 
 {
     private readonly IUserService _userService = userService;
 
-    [HttpPost()]
-    public IActionResult CreateUser(CreateUserRequest request) 
+    [HttpPost("signup")]
+    public IActionResult SignupUser(SignupUserRequest request) 
     {
         ErrorOr<User> requestToUserResult = Models.User.From(request);
 
@@ -26,6 +29,19 @@ public class UserController(IUserService userService) : ApiController
 
         return createUserResult.Match(
             created => CreatedAtGetUser(user),
+            errors => Problem(errors)
+        );
+    }
+
+    [HttpPost("login")]
+    public IActionResult LoginUser(LoginUserRequest request) 
+    {
+        ErrorOr<User> loginUserResult = _userService.Login(request);
+
+        return loginUserResult.Match(
+            user => {
+                return Ok(MapUserToLoginResponse(user, "00"));
+            },
             errors => Problem(errors)
         );
     }
@@ -50,10 +66,34 @@ public class UserController(IUserService userService) : ApiController
             user.ModifyTime,
             user.Username,
             user.Email,
+            user.IsEmailVerified,
             user.Phone,
+            user.IsPhoneVerified,
             user.Name,
             user.BirthDate,
             user.Roles
+        );
+
+        return response;
+    }
+
+    private static LoginUserResponse MapUserToLoginResponse(User user, string token)
+    {
+        var response = new LoginUserResponse(
+            user.Id,
+            user.CreatorId,
+            user.CreateTime,
+            user.ModifierId,
+            user.ModifyTime,
+            user.Username,
+            user.Email,
+            user.IsEmailVerified,
+            user.Phone,
+            user.IsPhoneVerified,
+            user.Name,
+            user.BirthDate,
+            user.Roles,
+            token
         );
 
         return response;

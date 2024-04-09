@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LifeLink.Migrations
 {
     [DbContext(typeof(LifeLinkDbContext))]
-    [Migration("20240408232202_Create_User_Table")]
-    partial class Create_User_Table
+    [Migration("20240409111337_CreateUserTable")]
+    partial class CreateUserTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,12 @@ namespace LifeLink.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsEmailVerified")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsPhoneVerified")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("ModifierId")
                         .HasColumnType("uuid");

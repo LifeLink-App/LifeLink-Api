@@ -1,4 +1,5 @@
 using ErrorOr;
+using LifeLink.Contracts.User.Requests;
 using LifeLink.Models;
 using LifeLink.Persistence;
 using LifeLink.Repositories.BaseRepository;
@@ -30,6 +31,27 @@ public class UserRepository(LifeLinkDbContext dbContext) : BaseRepository<User>(
         user.Password = hashedPassword;     
 
         return base.Create(user);
+    }
+
+    public ErrorOr<User> Login(LoginUserRequest request)
+    {
+        var loginUser = _dbContext.User.FirstOrDefault(u => 
+            (!string.IsNullOrEmpty(request.Email) && u.Email == request.Email) || 
+            (!string.IsNullOrEmpty(request.Username) && u.Username == request.Username));
+
+        if (loginUser == null)
+        {
+            return Errors.User.LoginErrorNotFound;
+        }
+
+        string hashedPasswordFromDatabase = loginUser.Password;
+
+        if (!BCrypt.Net.BCrypt.Verify(request.Password, hashedPasswordFromDatabase))
+        {
+            return Errors.User.LoginError;
+        }
+
+        return loginUser;
     }
 
     public new ErrorOr<Deleted> Delete(Guid id)
