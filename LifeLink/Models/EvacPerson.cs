@@ -1,5 +1,5 @@
 using ErrorOr;
-using LifeLink.Contracts.EvacPerson;
+using LifeLink.Contracts.EvacPerson.Requests;
 using LifeLink.Models.BaseModels;
 using LifeLink.ServiceErrors;
 
@@ -12,11 +12,6 @@ public class EvacPerson (
         string description,
         List<Guid> medications) : BaseModel (id)
 {
-    public const int MinNameLength = 3;
-    public const int MaxNameLength = 50;
-    public const int MinDescriptionLength = 3;
-    public const int MaxDescriptionLength = 200;
-
     public string Name { get; set; } = name;
     public DateTime BirthDate { get; set; } = birthDate;
     public string Description { get; set; } = description;
@@ -31,12 +26,12 @@ public class EvacPerson (
     {
         List<Error> errors = [];
 
-        if(name.Length < MinNameLength || name.Length > MaxNameLength){
-            errors.Add(Errors.EvacPerson.InvalidName);
+        if(name.Length < Constants.MinNameLength || name.Length > Constants.MaxNameLength){
+            errors.Add(Errors.EvacPerson.InvalidNameLength);
         }        
 
-        if(description.Length < MinDescriptionLength || description.Length > MaxDescriptionLength){
-            errors.Add(Errors.EvacPerson.InvalidDescription);
+        if(description.Length < Constants.MinDescriptionLength || description.Length > Constants.MaxDescriptionLength){
+            errors.Add(Errors.EvacPerson.InvalidDescriptionLength);
         }  
 
         if(errors.Count > 0){

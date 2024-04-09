@@ -1,4 +1,4 @@
-namespace LifeLink.Contracts.EvacPerson;
+namespace LifeLink.Contracts.EvacPerson.Requests;
 
 public record UpsertEvacPersonRequest (
     string Name,

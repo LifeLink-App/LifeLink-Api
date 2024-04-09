@@ -6,6 +6,7 @@ namespace LifeLink.Persistence;
 public class LifeLinkDbContext(DbContextOptions<LifeLinkDbContext> options) : DbContext(options)
 {
     public DbSet<EvacPerson> EvacPerson { get; set; } = null!;
+    public DbSet<User> User { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

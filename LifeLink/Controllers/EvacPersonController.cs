@@ -1,5 +1,6 @@
 using ErrorOr;
-using LifeLink.Contracts.EvacPerson;
+using LifeLink.Contracts.EvacPerson.Requests;
+using LifeLink.Contracts.EvacPerson.Responses;
 using LifeLink.Models;
 using LifeLink.Repositories.BaseRepository;
 using LifeLink.Services.EvacPersons;

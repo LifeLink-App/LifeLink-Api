@@ -12,12 +12,31 @@ public class EvacPersonConfigurations : IEntityTypeConfiguration<EvacPerson>
         builder.Property(e => e.Id).ValueGeneratedNever();
 
         builder.Property(e => e.Name)
-            .HasMaxLength(EvacPerson.MaxNameLength);
+            .HasMaxLength(Constants.MaxNameLength);
 
         builder.Property(e => e.Description)
-            .HasMaxLength(EvacPerson.MaxDescriptionLength);
+            .HasMaxLength(Constants.MaxDescriptionLength);
 
         builder.Property(e => e.Medications)
+            .HasConversion(
+                v => string.Join(",", v.Select(guid => guid.ToString())),
+                v => v.Split(",", StringSplitOptions.RemoveEmptyEntries)
+                        .Select(guidStr => Guid.Parse(guidStr.Trim())) 
+                        .ToList());
+    }
+
+    public void Configure(EntityTypeBuilder<User> builder)
+    {
+        builder.HasKey(e => e.Id);
+        builder.Property(e => e.Id).ValueGeneratedNever();
+
+        builder.Property(e => e.Username)
+            .HasMaxLength(Constants.MaxNameLength);
+    
+        builder.Property(e => e.Name)
+            .HasMaxLength(Constants.MaxNameLength);
+
+        builder.Property(e => e.Roles)
             .HasConversion(
                 v => string.Join(",", v.Select(guid => guid.ToString())),
                 v => v.Split(",", StringSplitOptions.RemoveEmptyEntries)
