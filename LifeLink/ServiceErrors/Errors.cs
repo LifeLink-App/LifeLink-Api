@@ -4,6 +4,18 @@ namespace LifeLink.ServiceErrors;
 
 public static class Errors
 {
+    public static class Parameter 
+    {
+        public static Error NotFoundGK => Error.NotFound(
+            code: "Parameter.NotFound",
+            description: "No GroupKey found"
+        );
+        public static Error NotFoundPK => Error.NotFound(
+            code: "Parameter.NotFound",
+            description: "No ParameterKey found"
+        );
+    }
+
     public static class EvacPerson 
     {
         public static Error NotFound => Error.NotFound(

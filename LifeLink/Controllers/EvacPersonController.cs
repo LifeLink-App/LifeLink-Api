@@ -4,10 +4,10 @@ using LifeLink.Contracts.EvacPerson.Responses;
 using LifeLink.Models;
 using LifeLink.Repositories.BaseRepository;
 using LifeLink.Services.EvacPersons;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LifeLink.Controllers;
-
 
 [Route("evacPerson")]
 public class EvacPersonController(IEvacPersonService evacPersonService) : ApiController 

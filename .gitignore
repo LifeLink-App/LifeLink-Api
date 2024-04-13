@@ -1,6 +1,4 @@
 .vscode/settings.json
-LifeLink/Connection.cs
-LifeLink/Security.cs
 LifeLink/bin/
 LifeLink/obj/
 LifeLink.Contracts/bin/

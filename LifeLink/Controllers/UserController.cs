@@ -4,12 +4,10 @@ using LifeLink.Contracts.User.Responses;
 using LifeLink.Models;
 using LifeLink.Services.BaseService;
 using LifeLink.Services.Users;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LifeLink.Controllers;
 
-[Authorize]
 [Route("user")]
 public class UserController(IUserService userService) : ApiController 
 {
@@ -36,11 +34,12 @@ public class UserController(IUserService userService) : ApiController
     [HttpPost("login")]
     public IActionResult LoginUser(LoginUserRequest request) 
     {
-        ErrorOr<User> loginUserResult = _userService.Login(request);
+        ErrorOr<User> loginUserResult = _userService.Login(request);        
 
         return loginUserResult.Match(
             user => {
-                return Ok(MapUserToLoginResponse(user, "00"));
+                var userToken = TokenService.GenerateToken(user.Id, user.Username, user.Roles);
+                return Ok(MapUserToLoginResponse(user, userToken));
             },
             errors => Problem(errors)
         );
