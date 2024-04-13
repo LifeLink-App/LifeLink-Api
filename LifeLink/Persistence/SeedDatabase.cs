@@ -1,7 +1,5 @@
+using LifeLink.Helpers;
 using LifeLink.Models;
-using LifeLink.Persistence;
-using System;
-using System.Linq;
 
 namespace LifeLink.Persistence
 {
@@ -9,12 +7,12 @@ namespace LifeLink.Persistence
     {
         public static void SeedData(LifeLinkDbContext dbContext)
         {
-            if (!dbContext.Parameter.Any(p => p.Id == Constants.ADMIN))
+            if (!dbContext.Parameter.Any(p => p.Id == UserRoles.Admin))
             {
                 dbContext.Parameter.AddRange(
                     new Parameter
                     (
-                        Constants.ADMIN,      
+                        UserRoles.Admin,      
                         Constants.GK_USER,
                         Constants.PK_USER_ROLES,
                         "Admin",
@@ -22,12 +20,12 @@ namespace LifeLink.Persistence
                     )
                 );
             }
-            if (!dbContext.Parameter.Any(p => p.Id == Constants.FIELD_OPERATOR))
+            if (!dbContext.Parameter.Any(p => p.Id == UserRoles.FieldOperator))
             {
                 dbContext.Parameter.AddRange(
                     new Parameter
                     (
-                        Constants.FIELD_OPERATOR,      
+                        UserRoles.FieldOperator,      
                         Constants.GK_USER,
                         Constants.PK_USER_ROLES,
                         "Field Operator",

@@ -1,6 +1,8 @@
+using System.Security.Claims;
 using ErrorOr;
 using LifeLink.Contracts.EvacPerson.Requests;
 using LifeLink.Contracts.EvacPerson.Responses;
+using LifeLink.Identity;
 using LifeLink.Models;
 using LifeLink.Repositories.BaseRepository;
 using LifeLink.Services.EvacPersons;
@@ -42,8 +44,10 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
             errors => Problem(errors));      
     }
 
+    [Authorize]
+    [RequiresClaim(ClaimTypes.Role, IdentityData.AdminUserClaimId)]
     [HttpGet()]
-    public IActionResult GetAllEvacPersons() 
+    public IActionResult GetAllEvacPersons()  
     {
         ErrorOr<List<EvacPerson>> getAllEvacPersonsResult = _evacPersonService.GetAll();
 

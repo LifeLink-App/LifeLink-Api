@@ -1,5 +1,6 @@
 using ErrorOr;
 using LifeLink.Contracts.User.Requests;
+using LifeLink.Helpers;
 using LifeLink.Models.BaseModels;
 using LifeLink.ServiceErrors;
 
@@ -41,7 +42,7 @@ public class User (
     {
         List<Error> errors = [];
 
-        if(!Helpers.IsEmailValid(email)){
+        if(!Helper.IsEmailValid(email)){
             errors.Add(Errors.User.InvalidEmail);
         }    
 
@@ -53,7 +54,7 @@ public class User (
             errors.Add(Errors.User.InvalidNameLength);
         }  
 
-        if(!string.IsNullOrEmpty(phone) && !Helpers.IsPhoneNumberValid(phone)){
+        if(!string.IsNullOrEmpty(phone) && !Helper.IsPhoneNumberValid(phone)){
             errors.Add(Errors.User.InvalidPhoneNumber);
         }
 

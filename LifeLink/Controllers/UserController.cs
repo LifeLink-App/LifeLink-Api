@@ -26,7 +26,10 @@ public class UserController(IUserService userService) : ApiController
         ErrorOr<Created> createUserResult = _userService.Create(user);
 
         return createUserResult.Match(
-            created => CreatedAtGetUser(user),
+            created => {
+                var userToken = TokenService.GenerateToken(user.Id, user.Username, user.Roles);
+                return CreatedAtGetUser(user, userToken);
+            },
             errors => Problem(errors)
         );
     }
@@ -98,9 +101,9 @@ public class UserController(IUserService userService) : ApiController
         return response;
     }
 
-    private CreatedAtActionResult CreatedAtGetUser (User user) {
+    private CreatedAtActionResult CreatedAtGetUser (User user, string userToken) {
         return CreatedAtAction(actionName: nameof(GetUser),
                                routeValues: new { id = user.Id },
-                               value: MapUserToResponse(user));
+                               value: MapUserToLoginResponse(user, userToken));
     }
 }

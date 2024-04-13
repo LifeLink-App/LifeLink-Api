@@ -1,7 +1,9 @@
-namespace LifeLink;
+namespace LifeLink.Helpers;
 
+// Constants
 public static class Constants
 {
+    
     public static readonly int MinNameLength = 3;
     public static readonly int MaxNameLength = 50;
     public static readonly int MinDescriptionLength = 3;
@@ -15,9 +17,5 @@ public static class Constants
     public static readonly string GK_USER = "USER";
 
     // Parameter Keys 
-    public static readonly string PK_USER_ROLES = "USER_ROLE";
-
-    // Parameters 
-    public static readonly Guid ADMIN = new("961a1ae7-6d3c-4e47-ace1-049cec49cce0");
-    public static readonly Guid FIELD_OPERATOR = new("961a1ae7-6d3c-4e47-ace1-049cec49cce1");
+    public static readonly string PK_USER_ROLES = "USER_ROLE";   
 }

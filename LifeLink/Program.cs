@@ -1,11 +1,6 @@
 using System.Text;
+using LifeLink.Configuration;
 using LifeLink.Persistence;
-using LifeLink.Repositories.EvacPersons;
-using LifeLink.Repositories.Parameters;
-using LifeLink.Repositories.Users;
-using LifeLink.Services.EvacPersons;
-using LifeLink.Services.Parameters;
-using LifeLink.Services.Users;
 using LifeLink.Swagger;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -33,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,           
-        };        
+        };    
     });
     builder.Services.AddAuthorization();
     builder.Services.AddEndpointsApiExplorer();
@@ -41,15 +36,8 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwaggerOptions>();
     builder.Services.AddControllers();
 
-    // services
-    builder.Services.AddScoped<IParameterService, ParameterService>();
-    builder.Services.AddScoped<IEvacPersonService, EvacPersonService>();
-    builder.Services.AddScoped<IUserService, UserService>();
-    
-    // repositories
-    builder.Services.AddScoped<IParameterRepository, ParameterRepository>();
-    builder.Services.AddScoped<IEvacPersonRepository, EvacPersonRepository>();
-    builder.Services.AddScoped<IUserRepository, UserRepository>();
+    // Configure services and repositories
+    ServiceConfiguration.ConfigureServices(builder.Services);
 
     builder.Services.AddDbContext<LifeLinkDbContext>(options => 
     {
@@ -66,7 +54,7 @@ var app = builder.Build();
     DatabaseSeeder.SeedData(dbContext);    
 }
 
-//if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

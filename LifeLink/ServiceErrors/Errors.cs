@@ -1,4 +1,5 @@
 using ErrorOr;
+using LifeLink.Helpers;
 
 namespace LifeLink.ServiceErrors;
 

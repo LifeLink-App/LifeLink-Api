@@ -1,4 +1,5 @@
 using ErrorOr;
+using Isopoh.Cryptography.Argon2;
 using LifeLink.Contracts.User.Requests;
 using LifeLink.Models;
 using LifeLink.Persistence;
@@ -26,9 +27,8 @@ public class UserRepository(LifeLinkDbContext dbContext) : BaseRepository<User>(
 
             return errors;
         }
-
-        var hashedPassword = BCrypt.Net.BCrypt.HashPassword(user.Password);
-        user.Password = hashedPassword;     
+        
+        user.Password = Argon2.Hash(user.Password);     
 
         return base.Create(user);
     }
@@ -44,9 +44,7 @@ public class UserRepository(LifeLinkDbContext dbContext) : BaseRepository<User>(
             return Errors.User.LoginErrorNotFound;
         }
 
-        string hashedPasswordFromDatabase = loginUser.Password;
-
-        if (!BCrypt.Net.BCrypt.Verify(request.Password, hashedPasswordFromDatabase))
+        if (!Argon2.Verify(loginUser.Password, request.Password))
         {
             return Errors.User.LoginError;
         }

@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 
-namespace LifeLink;
+namespace LifeLink.Helpers;
 
-public static class Helpers
+public static class Helper
 {
     private static bool RegexCheck(string template, string value)
     {

@@ -1,6 +1,6 @@
-using System;
 using ErrorOr;
 using LifeLink.Contracts.Parameter.Responses;
+using LifeLink.Helpers;
 using LifeLink.Models;
 using LifeLink.Services.Parameters;
 using Microsoft.AspNetCore.Mvc;
@@ -49,10 +49,23 @@ public class ParameterController(IParameterService parameterService) : ApiContro
             errors => Problem(errors));      
     }
 
-        [HttpGet("getParametersByParameterKey/{PK}")]
+    [HttpGet("getParametersByParameterKey/{PK}")]
     public IActionResult GetParametersByParameterKey(string PK) 
     {
         ErrorOr<List<Parameter>> getAllParametersByParameterKeyResult = _parameterService.GetParameterByPK(PK);
+
+        return getAllParametersByParameterKeyResult.Match(
+            parameters => {
+                    var list = parameters.Select(MapParameterToResponse).ToList();
+                    return Ok(new ParameterListResponse(Count: parameters.Count, Items: list));
+                },
+            errors => Problem(errors));      
+    }
+
+    [HttpGet("getUserRoles")]
+    public IActionResult GetUserRoles() 
+    {
+        ErrorOr<List<Parameter>> getAllParametersByParameterKeyResult = _parameterService.GetParameterByPK(Constants.PK_USER_ROLES);
 
         return getAllParametersByParameterKeyResult.Match(
             parameters => {
