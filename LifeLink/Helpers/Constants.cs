@@ -15,7 +15,13 @@ public static class Constants
 
     // Group Keys
     public static readonly string GK_USER = "USER";
+    public static readonly string GK_EVAC_PERSON = "EVAC_PERSON";
+    public static readonly string GK_FIELD_OPERATOR = "FIELD_OPERATOR";
 
     // Parameter Keys 
-    public static readonly string PK_USER_ROLES = "USER_ROLE";   
+    public static readonly string PK_USER_ROLE = "USER_ROLE";   
+    public static readonly string PK_EVAC_PERSON_STATUS = "EVAC_PERSON_STATUS";
+    public static readonly string PK_EVAC_PERSON_MEDICATION = "EVAC_PERSON_MEDICATION";
+    public static readonly string PK_EVAC_PERSON_ILLNESS = "EVAC_PERSON_ILLNESS";
+    public static readonly string PK_FIELD_OPERATOR_STATUS = "FIELD_OPERATOR_STATUS";
 }

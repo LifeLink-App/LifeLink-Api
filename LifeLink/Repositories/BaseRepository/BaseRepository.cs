@@ -1,3 +1,4 @@
+using System.Reflection;
 using ErrorOr;
 using LifeLink.Models.BaseModels;
 using LifeLink.Persistence;
@@ -5,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace LifeLink.Repositories.BaseRepository;
 
-public abstract class BaseRepository<TEntity>(LifeLinkDbContext dbContext) : IBaseRepository<TEntity> where TEntity : class, IBaseModel
+public abstract class BaseRepository<TEntity, TUpdateEntity>(LifeLinkDbContext dbContext) : IBaseRepository<TEntity, TUpdateEntity> where TEntity : class, IBaseModel
 {
     protected readonly LifeLinkDbContext _dbContext = dbContext;
 
@@ -53,24 +54,43 @@ public abstract class BaseRepository<TEntity>(LifeLinkDbContext dbContext) : IBa
         return entities ;
     }
 
-    public ErrorOr<UpsertedObject> Upsert(TEntity entity)
+    public ErrorOr<Updated> Update(Guid id, TUpdateEntity updateEntity, string modifierId)
     {        
-        var isNewlyCreated = !_dbContext.Set<TEntity>().Any(e => e.Id == entity.Id);
-
-        if (isNewlyCreated)
+        var entity = _dbContext.Set<TEntity>().Find(id);
+        if (entity == null)
         {
-            _dbContext.Set<TEntity>().Add(entity);
+            return Error.NotFound();
         }
-        else{
-            var existingEntity = _dbContext.Set<TEntity>().AsNoTracking().Single(e => e.Id == entity.Id);
-            
-            _dbContext.Attach(entity).State = EntityState.Modified;
-            
-            _dbContext.Entry(entity).Property("CreatorId").CurrentValue = existingEntity.CreatorId;
-            _dbContext.Entry(entity).Property("CreateTime").CurrentValue = existingEntity.CreateTime;
+
+        var entityType = typeof(TEntity);
+        var updateEntityType = typeof(TUpdateEntity);
+
+        foreach (var field in updateEntityType.GetProperties())
+        {
+            var propertyName = field.Name;
+            var propertyValue = field.GetValue(updateEntity);
+
+            if(propertyValue != null)
+            {
+                var entityProperty = entityType.GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                if (entityProperty != null && entityProperty.CanWrite)
+                {
+                    entityProperty.SetValue(entity, propertyValue);
+                }                
+            }
         }
+
+        var modifierIdProperty = entityType.GetProperty("ModifierId", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+        var modifyTimeProperty = entityType.GetProperty("ModifyTime", BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+        
+        if (modifierIdProperty != null && modifierIdProperty.CanWrite && modifyTimeProperty != null && modifyTimeProperty.CanWrite)
+        {
+            modifierIdProperty.SetValue(entity, new Guid(modifierId));
+            modifyTimeProperty.SetValue(entity, DateTime.UtcNow);
+        } 
+
         _dbContext.SaveChanges();
 
-        return new UpsertedObject(isNewlyCreated);
+        return Result.Updated;
     }
 }

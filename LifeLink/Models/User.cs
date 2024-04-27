@@ -3,12 +3,12 @@ using LifeLink.Contracts.User.Requests;
 using LifeLink.Helpers;
 using LifeLink.Models.BaseModels;
 using LifeLink.ServiceErrors;
+using Microsoft.IdentityModel.Tokens;
 
 namespace LifeLink.Models;
 
 public class User (
         Guid id,
-        string username,
         string email,
         bool isEmailVerified,
         string? phone,
@@ -16,9 +16,9 @@ public class User (
         string name,
         DateTime? birthDate,
         List<Guid> roles,
-        string password) : BaseModel (id)
+        string password
+    ) : BaseModel (id, Guid.Empty)
 {
-    public string Username { get; set; } = username;
     public string Email { get; set; } = email; 
     public bool IsEmailVerified { get; set; } = isEmailVerified;
     public string? Phone { get; set; } = phone;
@@ -29,7 +29,6 @@ public class User (
     public string Password { get; set; } = password;
 
     private static ErrorOr<User> Create(        
-        string username,
         string email,
         bool isEmailVerified,
         string? phone,
@@ -44,11 +43,7 @@ public class User (
 
         if(!Helper.IsEmailValid(email)){
             errors.Add(Errors.User.InvalidEmail);
-        }    
-
-        if(username.Length < Constants.MinNameLength || username.Length > Constants.MaxNameLength){
-            errors.Add(Errors.User.InvalidUsernameLength);
-        }       
+        }         
 
         if(name.Length < Constants.MinNameLength || name.Length > Constants.MaxNameLength){
             errors.Add(Errors.User.InvalidNameLength);
@@ -62,13 +57,17 @@ public class User (
             errors.Add(Errors.User.InvalidPasswordLength);
         }
 
+        if(roles.IsNullOrEmpty())
+        {
+            errors.Add(Errors.User.RoleNotProvided);
+        }
+
         if(errors.Count > 0){
             return errors;
         }
 
         return new User (
             id ?? Guid.NewGuid(),
-            username,
             email,
             isEmailVerified,
             phone,
@@ -83,7 +82,6 @@ public class User (
     public static ErrorOr<User> From(SignupUserRequest request)
     {
         return Create(
-            request.Username,
             request.Email,
             false,
             request.Phone,

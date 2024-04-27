@@ -1,8 +1,13 @@
+using LifeLink.Contracts.HelperClasses;
+
 namespace LifeLink.Contracts.EvacPerson.Requests;
 
-public record CreateEvacPersonRequest (
+public record CreateEvacPersonRequest(
     string Name,
-    DateTime BirthDay,
-    string Description,
-    List<Guid> Medications
+    DateTime BirthDate,
+    List<Guid> Medications,
+    List<Guid> Illnesses,
+    string? Description,
+    Coordinate Location,
+    string? LocationNote
 );

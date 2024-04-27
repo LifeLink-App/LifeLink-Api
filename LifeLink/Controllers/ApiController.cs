@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using ErrorOr;
+using LifeLink.ServiceErrors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
@@ -37,5 +39,18 @@ public class ApiController : ControllerBase
         };
 
         return Problem(statusCode: statusCode, title: firstError.Description, detail: firstError.Code);
+    }
+
+    protected ErrorOr<string> GetRequestOwnerId() 
+    {
+        var userClaims = HttpContext.User.Claims;
+
+        var roleClaim = userClaims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+        if (roleClaim != null)
+        {
+            return roleClaim.Value;
+        }
+
+        return Errors.Identity.ClaimNotFound;
     }
 }

@@ -4,7 +4,7 @@ using LifeLink.Contracts.EvacPerson.Requests;
 using LifeLink.Contracts.EvacPerson.Responses;
 using LifeLink.Identity;
 using LifeLink.Models;
-using LifeLink.Repositories.BaseRepository;
+using LifeLink.Models.Dtos;
 using LifeLink.Services.EvacPersons;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,16 +16,27 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
 {
     private readonly IEvacPersonService _evacPersonService = evacPersonService;
 
+    [Authorize]
+    [RequiresClaim(ClaimTypes.Role, IdentityData.AdminUserClaimId)]
     [HttpPost()]
     public IActionResult CreateEvacPerson(CreateEvacPersonRequest request) 
     {
-        ErrorOr<EvacPerson> requestToEvacPersonResult = EvacPerson.From(request);
+        var claimValue = GetRequestOwnerId();
+
+        if(claimValue.IsError){
+            return Problem(claimValue.Errors);
+        }
+
+        var requestOwner = claimValue.Value;
+
+        ErrorOr<EvacPerson> requestToEvacPersonResult = EvacPerson.From(request, requestOwner);
 
         if(requestToEvacPersonResult.IsError) {
             return Problem(requestToEvacPersonResult.Errors);
         }
 
         var evacPerson = requestToEvacPersonResult.Value;
+
         ErrorOr<Created> createEvacPersonResult = _evacPersonService.Create(evacPerson);
 
         return createEvacPersonResult.Match(
@@ -34,6 +45,8 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
         );
     }
 
+    [Authorize]
+    [RequiresClaim(ClaimTypes.Role, IdentityData.AdminUserClaimId)]
     [HttpGet("{id:guid}")]
     public IActionResult GetEvacPerson(Guid id) 
     {
@@ -59,24 +72,37 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
             errors => Problem(errors));      
     }
 
+    [Authorize]
+    [RequiresClaim(ClaimTypes.Role, IdentityData.AdminUserClaimId)]
     [HttpPut("{id:guid}")]
-    public IActionResult UpsertEvacPerson(Guid id, UpsertEvacPersonRequest request) 
+    public IActionResult UpdateEvacPerson(Guid id, UpdateEvacPersonRequest request) 
     {
-        ErrorOr<EvacPerson> requestToEvacPersonResult = EvacPerson.From(id, request);
+        var claimValue = GetRequestOwnerId();
 
-        if(requestToEvacPersonResult.IsError) {
-            return Problem(requestToEvacPersonResult.Errors);
+        if(claimValue.IsError){
+            return Problem(claimValue.Errors);
         }
 
-        var evacPerson = requestToEvacPersonResult.Value;
-        ErrorOr<UpsertedObject> upsertEvacPersonResult = _evacPersonService.Upsert(evacPerson);
+        var requestOwner = claimValue.Value;       
 
-        return upsertEvacPersonResult.Match(
-            upserted => upserted.IsNewlyCreated ? CreatedAtGetEvacPerson(evacPerson) : NoContent(),
+        ErrorOr<EvacPersonUpdateDto> requestToEvacPersonUpdateDtoResult = EvacPersonUpdateDto.From(request);
+
+        if(requestToEvacPersonUpdateDtoResult.IsError) {
+            return Problem(requestToEvacPersonUpdateDtoResult.Errors);
+        }
+
+        var evacPersonUpdateDto = requestToEvacPersonUpdateDtoResult.Value;
+
+        ErrorOr<Updated> updateEvacPersonResult = _evacPersonService.Update(id, evacPersonUpdateDto, requestOwner);
+
+        return updateEvacPersonResult.Match(
+            updated =>  NoContent(),
             errors => Problem(errors)
         );
     }
 
+    [Authorize]
+    [RequiresClaim(ClaimTypes.Role, IdentityData.AdminUserClaimId)]
     [HttpDelete("{id:guid}")]
     public IActionResult DeleteEvacPerson(Guid id) 
     {
@@ -90,6 +116,11 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
 
     private static EvacPersonResponse MapEvacPersonToResponse(EvacPerson evacPerson)
     {
+        DateTime birthDate = evacPerson.BirthDate;
+        DateTime currentDate = DateTime.Now;
+
+        int age = currentDate.Year - birthDate.Year;
+
         var response = new EvacPersonResponse(
             evacPerson.Id,
             evacPerson.CreatorId,
@@ -98,8 +129,14 @@ public class EvacPersonController(IEvacPersonService evacPersonService) : ApiCon
             evacPerson.ModifyTime,
             evacPerson.Name,
             evacPerson.BirthDate,
+            age - (birthDate.Date > currentDate.Date.AddYears(-age) ? 1 : 0),
+            evacPerson.Medications,
+            evacPerson.Illnesses,
             evacPerson.Description,
-            evacPerson.Medications
+            new Contracts.HelperClasses.Coordinate(evacPerson.Location.Latitude, evacPerson.Location.Longitude),
+            evacPerson.LocationNote,
+            evacPerson.AssignedOperators,
+            evacPerson.Status
         );
 
         return response;

@@ -5,6 +5,14 @@ namespace LifeLink.ServiceErrors;
 
 public static class Errors
 {
+    public static class Identity 
+    {
+        public static Error ClaimNotFound => Error.NotFound(
+            code: "Identity.NotFound.ClaimNotFound",
+            description: "Needed claim not found in this token"
+        );
+    }
+
     public static class Parameter 
     {
         public static Error NotFoundGK => Error.NotFound(
@@ -31,6 +39,18 @@ public static class Errors
             code: "EvacPerson.Validation.InvalidDescription",
             description: $"Evac Person description must be at least {Constants.MinDescriptionLength} characters long and at most {Constants.MaxDescriptionLength} characters long"
         );
+        public static Error InvalidLocationNoteLength => Error.Validation(
+            code: "EvacPerson.Validation.InvalidLocationNote",
+            description: $"Evac Person location note must be at least {Constants.MinDescriptionLength} characters long and at most {Constants.MaxDescriptionLength} characters long"
+        );
+        public static Error MedicationNotFound => Error.NotFound(
+            code: "EvacPerson.NotFound.MedicationNotFound",
+            description: "Medication not found"
+        );
+        public static Error IllnessNotFound => Error.NotFound(
+            code: "EvacPerson.NotFound.IllnessNotFound",
+            description: "Illness not found"
+        );
     }
 
     public static class User 
@@ -42,10 +62,6 @@ public static class Errors
         public static Error InvalidEmail => Error.Validation(
             code: "User.Validation.InvalidEmail",
             description: $"User Email is not in a valid format"
-        );        
-        public static Error InvalidUsernameLength => Error.Validation(
-            code: "User.Validation.InvalidUsername",
-            description: $"User username must be at least {Constants.MinNameLength} characters long and at most {Constants.MaxNameLength} characters long"
         );
         public static Error InvalidNameLength => Error.Validation(
             code: "User.Validation.InvalidName",
@@ -63,10 +79,6 @@ public static class Errors
             code: "User.Conflict.ExistingEmail",
             description: "User with this Email already exists"
         );
-        public static Error ExistingUsername => Error.Conflict(
-            code: "User.Conflict.ExistingUsername",
-            description: "User with this Username already exists"
-        );
         public static Error LoginErrorNotFound => Error.NotFound(
             code: "User.NotFound.LoginErrorNotFound",
             description: "User with this credentials not found"
@@ -74,6 +86,34 @@ public static class Errors
         public static Error LoginError => Error.Conflict(
             code: "User.Conflict.LoginError",
             description: "User credentials are wrong"
+        );
+        public static Error RoleNotFound => Error.NotFound(
+            code: "User.NotFound.RoleNotFound",
+            description: "Role not found"
+        );
+        public static Error RoleNotProvided => Error.Validation(
+            code: "User.Validation.RoleNotProvided",
+            description: "User must have at least one role"
+        );
+    }
+
+    public static class FieldOperator 
+    {       
+        public static Error InvalidLocationNoteLength => Error.Validation(
+            code: "FieldOperator.Validation.InvalidLocationNote",
+            description: $"Field Operator location note must be at least {Constants.MinDescriptionLength} characters long and at most {Constants.MaxDescriptionLength} characters long"
+        );
+        public static Error NoLocationValue => Error.Validation(
+            code: "FieldOperator.Validation.NoLocationValue",
+            description: "Location must be provided when creating a Field Operator"
+        );
+        public static Error NotFound => Error.NotFound(
+            code: "FieldOperator.NotFound",
+            description: "Field Operator not found"
+        );
+        public static Error FieldOperatorConnectionConflict => Error.Conflict(
+            code: "FieldOperator.Conflict.FieldOperatorConnectionConflict",
+            description: "This user is connected with more than one Field Operators"
         );
     }
 }

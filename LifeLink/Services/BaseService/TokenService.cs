@@ -7,7 +7,7 @@ namespace LifeLink.Services.BaseService;
 
 public static class TokenService
 {
-    public static string GenerateToken(Guid userId, string username, List<Guid> roles)
+    public static string GenerateToken(Guid userId, string email, List<Guid> roles)
     {
         IConfiguration configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
@@ -20,7 +20,7 @@ public static class TokenService
 
         // Create a list of claims and add the necessary claims
         var claims = new ClaimsIdentity();
-        claims.AddClaim(new Claim(ClaimTypes.Name, username));
+        claims.AddClaim(new Claim(ClaimTypes.Email, email));
         claims.AddClaim(new Claim(ClaimTypes.NameIdentifier, userId.ToString()));
 
         // Add roles as separate claims

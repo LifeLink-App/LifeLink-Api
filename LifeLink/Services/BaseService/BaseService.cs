@@ -3,9 +3,9 @@ using LifeLink.Repositories.BaseRepository;
 
 namespace LifeLink.Services.BaseService
 {
-    public abstract class BaseService<TEntity>(IBaseRepository<TEntity> repository) : IBaseService<TEntity> where TEntity : class
+    public abstract class BaseService<TEntity, TUpdateEntity>(IBaseRepository<TEntity, TUpdateEntity> repository) : IBaseService<TEntity, TUpdateEntity> where TEntity : class
     {
-        protected readonly IBaseRepository<TEntity> _repository = repository;
+        protected readonly IBaseRepository<TEntity, TUpdateEntity> _repository = repository;
 
         public virtual ErrorOr<Created> Create(TEntity entity)
         {
@@ -27,9 +27,9 @@ namespace LifeLink.Services.BaseService
             return _repository.GetAll();
         }
 
-        public virtual ErrorOr<UpsertedObject> Upsert(TEntity entity)
+        public virtual ErrorOr<Updated> Update(Guid id, TUpdateEntity updateEntity, string modifierId)
         {
-            return _repository.Upsert(entity);
+            return _repository.Update(id, updateEntity, modifierId);
         }
     }
 }

@@ -2,30 +2,21 @@ using ErrorOr;
 using Isopoh.Cryptography.Argon2;
 using LifeLink.Contracts.User.Requests;
 using LifeLink.Models;
+using LifeLink.Models.Dtos;
 using LifeLink.Persistence;
 using LifeLink.Repositories.BaseRepository;
 using LifeLink.ServiceErrors;
 
 namespace LifeLink.Repositories.Users;
 
-public class UserRepository(LifeLinkDbContext dbContext) : BaseRepository<User>(dbContext), IUserRepository
+public class UserRepository(LifeLinkDbContext dbContext) : BaseRepository<User, UserUpdateDto>(dbContext), IUserRepository
 {
     public new ErrorOr<Created> Create(User user)
     {
-        var existingUserByEmailOrUsername = _dbContext.User.FirstOrDefault(u => u.Email == user.Email || u.Username == user.Username);
+        var existingUserByEmail = _dbContext.User.FirstOrDefault(u => u.Email == user.Email);
         
-        if(existingUserByEmailOrUsername != null){
-            List<Error> errors = [];
-
-            if(existingUserByEmailOrUsername.Email == user.Email){
-                errors.Add(Errors.User.ExistingEmail);
-            }
-
-            if(existingUserByEmailOrUsername.Username == user.Username){
-                errors.Add(Errors.User.ExistingUsername);
-            }
-
-            return errors;
+        if(existingUserByEmail != null){
+            return Errors.User.ExistingEmail;
         }
         
         user.Password = Argon2.Hash(user.Password);     
@@ -35,9 +26,7 @@ public class UserRepository(LifeLinkDbContext dbContext) : BaseRepository<User>(
 
     public ErrorOr<User> Login(LoginUserRequest request)
     {
-        var loginUser = _dbContext.User.FirstOrDefault(u => 
-            (!string.IsNullOrEmpty(request.Email) && u.Email == request.Email) || 
-            (!string.IsNullOrEmpty(request.Username) && u.Username == request.Username));
+        var loginUser = _dbContext.User.FirstOrDefault(u => u.Email == request.Email);
 
         if (loginUser == null)
         {

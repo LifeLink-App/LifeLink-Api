@@ -65,7 +65,7 @@ public class ParameterController(IParameterService parameterService) : ApiContro
     [HttpGet("getUserRoles")]
     public IActionResult GetUserRoles() 
     {
-        ErrorOr<List<Parameter>> getAllParametersByParameterKeyResult = _parameterService.GetParameterByPK(Constants.PK_USER_ROLES);
+        ErrorOr<List<Parameter>> getAllParametersByParameterKeyResult = _parameterService.GetParameterByPK(Constants.PK_USER_ROLE);
 
         return getAllParametersByParameterKeyResult.Match(
             parameters => {
@@ -75,7 +75,59 @@ public class ParameterController(IParameterService parameterService) : ApiContro
             errors => Problem(errors));      
     }
 
-       private static ParameterResponse MapParameterToResponse(Parameter parameter)
+    [HttpGet("getEvacPersonStatuses")]
+    public IActionResult GetEvacPersonStatuses() 
+    {
+        ErrorOr<List<Parameter>> getAllParametersByParameterKeyResult = _parameterService.GetParameterByPK(Constants.PK_EVAC_PERSON_STATUS);
+
+        return getAllParametersByParameterKeyResult.Match(
+            parameters => {
+                    var list = parameters.Select(MapParameterToResponse).ToList();
+                    return Ok(new ParameterListResponse(Count: parameters.Count, Items: list));
+                },
+            errors => Problem(errors));      
+    }
+
+    [HttpGet("getEvacPersonMedications")]
+    public IActionResult GetEvacPersonMedications() 
+    {
+        ErrorOr<List<Parameter>> getAllParametersByParameterKeyResult = _parameterService.GetParameterByPK(Constants.PK_EVAC_PERSON_MEDICATION);
+
+        return getAllParametersByParameterKeyResult.Match(
+            parameters => {
+                    var list = parameters.Select(MapParameterToResponse).ToList();
+                    return Ok(new ParameterListResponse(Count: parameters.Count, Items: list));
+                },
+            errors => Problem(errors));      
+    }
+
+    [HttpGet("getEvacPersonIllnesses")]
+    public IActionResult GetEvacPersonIllnesses() 
+    {
+        ErrorOr<List<Parameter>> getAllParametersByParameterKeyResult = _parameterService.GetParameterByPK(Constants.PK_EVAC_PERSON_ILLNESS);
+
+        return getAllParametersByParameterKeyResult.Match(
+            parameters => {
+                    var list = parameters.Select(MapParameterToResponse).ToList();
+                    return Ok(new ParameterListResponse(Count: parameters.Count, Items: list));
+                },
+            errors => Problem(errors));      
+    }
+
+    [HttpGet("getFieldOperatorStatuses")]
+    public IActionResult GetFieldOperatorStatuses() 
+    {
+        ErrorOr<List<Parameter>> getAllParametersByParameterKeyResult = _parameterService.GetParameterByPK(Constants.PK_FIELD_OPERATOR_STATUS);
+
+        return getAllParametersByParameterKeyResult.Match(
+            parameters => {
+                    var list = parameters.Select(MapParameterToResponse).ToList();
+                    return Ok(new ParameterListResponse(Count: parameters.Count, Items: list));
+                },
+            errors => Problem(errors));      
+    }
+
+    private static ParameterResponse MapParameterToResponse(Parameter parameter)
     {
         var response = new ParameterResponse(
             parameter.Id,

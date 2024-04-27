@@ -1,12 +1,13 @@
 using ErrorOr;
 using LifeLink.Models;
+using LifeLink.Models.Dtos;
 using LifeLink.Persistence;
 using LifeLink.Repositories.BaseRepository;
 using LifeLink.ServiceErrors;
 
 namespace LifeLink.Repositories.Parameters;
 
-public class ParameterRepository(LifeLinkDbContext dbContext) : BaseRepository<Parameter>(dbContext), IParameterRepository
+public class ParameterRepository(LifeLinkDbContext dbContext) : BaseRepository<Parameter, ParameterUpdateDto>(dbContext), IParameterRepository
 {
     public ErrorOr<List<string>> GetAllGK()
     {

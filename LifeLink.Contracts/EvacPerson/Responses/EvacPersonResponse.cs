@@ -1,3 +1,5 @@
+using LifeLink.Contracts.HelperClasses;
+
 namespace LifeLink.Contracts.EvacPerson.Responses;
 
 public record EvacPersonResponse (
@@ -8,6 +10,12 @@ public record EvacPersonResponse (
     DateTime ModifyTime,
     string Name,
     DateTime BirthDate,
-    string Description,
-    List<Guid> Medications
+    int Age,
+    List<Guid> Medications,
+    List<Guid> Illnesses,
+    string? Description,
+    Coordinate Location,
+    string? LocationNote,
+    List<Guid> AssignedOperators,
+    Guid Status
 );

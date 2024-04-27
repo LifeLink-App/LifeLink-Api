@@ -27,6 +27,10 @@ namespace LifeLink.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
 
+                    b.Property<string>("AssignedOperators")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp with time zone");
 
@@ -37,7 +41,18 @@ namespace LifeLink.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Description")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<string>("Illnesses")
                         .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LocationNote")
                         .HasMaxLength(200)
                         .HasColumnType("character varying(200)");
 
@@ -56,9 +71,55 @@ namespace LifeLink.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
+                    b.Property<Guid>("Status")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
 
                     b.ToTable("EvacPerson");
+                });
+
+            modelBuilder.Entity("LifeLink.Models.FieldOperator", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid?>("ActiveEvacPerson")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AssignedEvacPersons")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreateTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LocationNote")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
+
+                    b.Property<Guid>("ModifierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("ModifyTime")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("Status")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FieldOperator");
                 });
 
             modelBuilder.Entity("LifeLink.Models.Parameter", b =>
@@ -148,11 +209,6 @@ namespace LifeLink.Migrations
                     b.Property<string>("Roles")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
 
                     b.HasKey("Id");
 

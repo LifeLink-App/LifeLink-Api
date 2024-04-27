@@ -26,7 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
             ),
             ValidateIssuer = true,
             ValidateAudience = true,
-            ValidateLifetime = true,
+            ValidateLifetime = false,
             ValidateIssuerSigningKey = true,           
         };    
     });

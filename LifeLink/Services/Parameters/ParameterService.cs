@@ -1,11 +1,13 @@
 using ErrorOr;
+using LifeLink.Helpers;
 using LifeLink.Models;
+using LifeLink.Models.Dtos;
 using LifeLink.Repositories.Parameters;
 using LifeLink.Services.BaseService;
 
 namespace LifeLink.Services.Parameters;
 
-public class ParameterService(IParameterRepository parameterRepository) : BaseService<Parameter>(parameterRepository), IParameterService
+public class ParameterService(IParameterRepository parameterRepository) : BaseService<Parameter, ParameterUpdateDto>(parameterRepository), IParameterService
 {
     private new readonly ParameterRepository _repository = (ParameterRepository)parameterRepository;
 

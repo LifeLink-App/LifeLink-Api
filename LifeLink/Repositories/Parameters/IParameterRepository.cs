@@ -1,10 +1,11 @@
 using ErrorOr;
 using LifeLink.Models;
+using LifeLink.Models.Dtos;
 using LifeLink.Repositories.BaseRepository;
 
 namespace LifeLink.Repositories.Parameters;
 
-public interface IParameterRepository : IBaseRepository<Parameter>
+public interface IParameterRepository : IBaseRepository<Parameter, ParameterUpdateDto>
 {
     ErrorOr<List<string>> GetAllGK();
     ErrorOr<List<string>> GetAllPK();

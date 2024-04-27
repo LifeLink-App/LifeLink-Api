@@ -6,7 +6,6 @@ public record UserResponse (
     DateTime CreateTime,
     Guid ModifierId, 
     DateTime ModifyTime,
-    string Username,
     string Email,
     bool IsEmailVerified,
     string? Phone,

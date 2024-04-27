@@ -7,7 +7,8 @@ public class Parameter (
         string groupKey,
         string parameterKey,
         string value,
-        string extraValue) : BaseModel (id)
+        string extraValue
+    ) : BaseModel (id, Guid.Empty)
 {
     public string GroupKey { get; set; } = groupKey;    
     public string ParameterKey { get; set; } = parameterKey;    
